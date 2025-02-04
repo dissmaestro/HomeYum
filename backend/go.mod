@@ -1,4 +1,4 @@
-module homeyum
+module HomeYum
 
 go 1.23.5
 
