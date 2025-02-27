@@ -1,23 +1,15 @@
-# Используем Node.js для сборки React
-FROM node:20-alpine AS build
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Копируем package.json и package-lock.json (если он есть)
+# Копируем package.json и package-lock.json
 COPY package.json package-lock.json ./
 
-# Устанавливаем зависимости через npm
+# Устанавливаем зависимости
 RUN npm install
 
-# Копируем весь код и собираем проект
+# Копируем весь код
 COPY . .
-RUN npm run build
 
-# Используем Nginx для раздачи статики
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Добавляем конфиг Nginx
-COPY nginx.conf /etc/nginx/nginx.conf
-
-CMD ["nginx", "-g", "daemon off;"]
+# Запускаем dev-сервер
+CMD ["npm", "run", "start"]

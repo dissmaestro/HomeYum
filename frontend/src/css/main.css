@@ -4,45 +4,46 @@
 }
 
 body {
-    background-color: rgb(6, 30, 7);
-    color: #e8cfcf;
+    background-color: rgb(126, 174, 127);
+    color: #000000;
     margin-top: 20px;
 }
 
+
 .header {
-    background-color: #340619;
-    padding: 20px;
-    width: 80%; /* Ширина */
-    max-width: 800px; /* Максимальная ширина */
-    border-radius: 40px; /* Скругленные углы */
-    margin: 20px auto; /* Центрирование по горизонтали */
-    text-align: center; /* Центрирование текста внутри */
+    background-color: #3a6e1b;
+    /* padding: 20px; */
+    width: 100%; 
+    max-width: none; /* Максимальная ширина */
+    /* border-radius: 40px;  */
+    /* margin: 20px auto; Центрирование по горизонтали */
+    /* text-align: center; Центрирование текста внутри */
 }
 
 .contacs {
-    background-color: #340619;
+    background-color: #1b1518;
 }
 
-menu {
+.menu {
     position: fixed;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+    top: 23px;
+    right: 10px;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 5px;
 }
 
 /* Стили для кнопок */
 .menu button {
-    background-color: #444;
-    color: white;
+    background-color: #ec8888;
+    color: rgb(4, 86, 38);
     border: none;
     padding: 10px 15px;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
-    gap: 3;
+    
 }
 
 .menu button:hover {
@@ -55,21 +56,22 @@ menu {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: white;
+    background: rgb(223, 231, 179);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    display: none;
+    /* display: none; */
 }
 
 .modal.active {
     display: block;
+    background: rgb(223, 231, 179);
 }
 
 .modal .close {
-    background: red;
-    color: white;
-    border: none;
+    background: rgb(64, 5, 46);
+    color: rgba(177, 244, 216, 0.3);
+    border-radius: 10%;
     padding: 5px 10px;
     cursor: pointer;
 }

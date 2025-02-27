@@ -12,11 +12,11 @@ const App = () => {
     const openModal = (type) => {
         let content = "";
         if (type === "telegram") {
-            content = <p>Мой Telegram: <a href="https://t.me/@Rokcet" target="_blank" rel="noopener noreferrer">@your_username</a></p>;
+            content = <p>Мой Telegram: <a href="https://t.me/@Rokcet" target="_blank" rel="noopener noreferrer">@Rokcet</a></p>;
         } else if (type === "whatsapp") {
             content = <p>Мой WhatsApp: <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">Написать</a></p>;
         } else if (type === "phone") {
-            content = <p>Мой номер: +7 (800) 555-35-35</p>;
+            content = <p>Мой номер: <a href="tel:+78005553535">+7 (800) 555-35-35</a></p>;
         }
     
         setModalContent(content); // Устанавливаем содержимое
@@ -30,9 +30,9 @@ const App = () => {
     return (
     <div className="header">
     <Header title="Welcome to the KateKatering, professional chefs redy to cook for you"/>
-    <h1 className="body">
-        <Message />
-    </h1>
+    <Message />
+
+    
     {/* Меню контактов */}
     <ContactMenu openModal={openModal} />
             {/* Модальное окно (появляется только при открытии) */}
