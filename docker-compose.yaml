@@ -1,5 +1,6 @@
 version: "3.8"
 
+
 services:
   backend:
     build: ./backend
@@ -18,10 +19,8 @@ services:
       - backend
     networks:
       - app-network
-    volumes:
-      - ./frontend:/app  # Монтируем код
-      - /app/node_modules  # Исключаем node_modules
-    command: npm run start  # Запускаем dev-сервер
+
+
 networks:
   app-network:
     driver: bridge

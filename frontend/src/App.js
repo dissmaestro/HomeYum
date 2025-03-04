@@ -35,7 +35,6 @@ const App = () => {
     
     {/* Меню контактов */}
     <ContactMenu openModal={openModal} />
-            {/* Модальное окно (появляется только при открытии) */}
             {isModalOpen && <Modal content={modalContent} closeModal={closeModal} />}
     </div>
     )
