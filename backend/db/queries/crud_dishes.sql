@@ -1,25 +1,15 @@
-CREATE TABLE dishes (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(120) NOT NULL, -- Название блюда
-    description TEXT,
-    image_url VARCHAR(255), 
-    price DECIMAL(10,2) NOT NULL, 
-);
-
-
-
--- Return all dishes
+-- name: GetAllDishes :many
 SELECT id, name, description, image_url, price
 FROM dishes;
 
--- Get dish by id
+-- name: GetDishByID :one
 SELECT id, name, description, image_url, price
 FROM dishes
 WHERE
     id = @id;
 
--- Update dish by id
-UPDATE agent
+-- name: UpdateDishByID :one
+UPDATE dishes
 SET
     name = @name,
     description = @description,
@@ -29,12 +19,12 @@ WHERE
     id = @id
 RETURNING *;
 
--- Insert one dish
+-- name: InsertDish :one
 insert into dishes (name, description, image_url, price)
 values (@name, @description, @image_url, @price)
 RETURNING *;
 
--- Return all dishes by category
+-- name: GetDishesByCategory :many
 SELECT d.*
 FROM dishes d
 JOIN dish_categories dc ON d.id = dc.dish_id
