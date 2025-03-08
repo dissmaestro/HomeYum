@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -31,6 +32,9 @@ func main() {
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
 
+	// Limit to nubers of request  toavoid DDOS
+	app.Use(limiter.New())
+
 	// Initialize DB connect
 	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -47,6 +51,7 @@ func main() {
 		return c.JSON(fiber.Map{"message": "HomeYum Katering Service"})
 	})
 
+	// Register routes
 	handlers.RegisterDishesRoutes(app, queries)
 
 	port := os.Getenv("FIBER_ADDR")
