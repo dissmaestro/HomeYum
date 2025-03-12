@@ -13,3 +13,6 @@ sql:
       package: "db"
       out: "internal/db"
       sql_package: "pgx/v5"
+      overrides:
+          - db_type: "numeric"
+            go_type: "float64"
