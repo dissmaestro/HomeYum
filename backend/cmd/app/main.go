@@ -18,13 +18,6 @@ func main() {
 
 	app := fiber.New()
 
-	// app := fiber.New(fiber.Config{
-	// 	Prefork:       true,
-	// 	ServerHeader:  "HomeYum",
-	// 	CaseSensitive: true,
-	// 	StrictRouting: true,
-	// })
-
 	// CORS midleware
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost",
@@ -50,6 +43,9 @@ func main() {
 	app.Get("/api/main", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"message": "HomeYum Katering Service"})
 	})
+
+	// For gettiting images for frontend
+	app.Static("/images", "./images")
 
 	// Register routes
 	handlers.RegisterDishesRoutes(app, queries)
