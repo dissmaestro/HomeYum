@@ -47,7 +47,7 @@ func main() {
 	})
 
 	// For gettiting images for frontend
-	app.Static("/images", os.Getenv("IMAGE_URL"))
+	app.Static("/images", "./images")
 
 	// Register routes
 	handlers.RegisterDishesRoutes(app, queries)

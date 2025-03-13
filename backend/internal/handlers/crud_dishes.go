@@ -49,9 +49,16 @@ func createDishes(queries *db.Queries) fiber.Handler {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Image is required"})
 		}
 
+		if _, err := os.Stat(os.Getenv("IMAGE_URL")); os.IsNotExist(err) {
+			err := os.MkdirAll(os.Getenv("IMAGE_URL"), os.ModePerm)
+			if err != nil {
+				log.Println("Failed to create dir for images:", err)
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create images folder"})
+			}
+		}
+
 		ext := filepath.Ext(file.Filename)
 		imagePath := fmt.Sprintf("%s%s%s", os.Getenv("IMAGE_URL"), uuid.New(), ext)
-
 		if err := c.SaveFile(file, imagePath); err != nil {
 			log.Println("Error saving image")
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to save image"})
