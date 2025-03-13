@@ -10,6 +10,8 @@ const App = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState("");
 
+    const openDishModal = () => setIsModalOpen(true);
+    const closeDishModal = () => setIsModalOpen(false);
 
     const openModal = (type) => {
         let content = "";
@@ -35,7 +37,10 @@ const App = () => {
             <Message />
             <ContactMenu openModal={openModal} />
             {isModalOpen && <Modal content={modalContent} closeModal={closeModal} />}
-            <UploadDish />
+            
+            
+            <button onClick={openDishModal}>Добавить блюдо</button>
+            <UploadDish isOpen={isModalOpen} onClose={closeDishModal} />
         </div>
     )
 }

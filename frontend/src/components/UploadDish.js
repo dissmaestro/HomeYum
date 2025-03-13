@@ -1,13 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
+import "../css/dish.css";
 
-function UploadDish() {
+function UploadDish({ isOpen, onClose }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false); // Состояние загрузки
   const [message, setMessage] = useState(""); // Сообщение об ошибке/успехе
+
+  if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +54,8 @@ function UploadDish() {
   };
 
   return (
-    <div>
+    <div className="modal-overlay">
+      <div className="modal-content">
       <h2>Добавить новое блюдо</h2>
       {message && <p style={{ color: message.includes("Ошибка") ? "red" : "green" }}>{message}</p>}
       <form onSubmit={handleSubmit}>
@@ -84,8 +88,10 @@ function UploadDish() {
         />
         <button type="submit" disabled={loading}>
           {loading ? "Загрузка..." : "Создать блюдо"}
-        </button>
+        </button >
+        <button onClick={onClose} className="close-btn">Закрыть</button>
       </form>
+      </div>
     </div>
   );
 }
