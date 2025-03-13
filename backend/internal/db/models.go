@@ -14,11 +14,11 @@ type Category struct {
 }
 
 type Dish struct {
-	ID          int32          `json:"id"`
-	Name        string         `json:"name"`
-	Description *string        `json:"description"`
-	ImageUrl    *string        `json:"image_url"`
-	Price       pgtype.Numeric `json:"price"`
+	ID          int32   `json:"id"`
+	Name        string  `json:"name"`
+	Description *string `json:"description"`
+	ImageUrl    *string `json:"image_url"`
+	Price       float64 `json:"price"`
 }
 
 type DishCategory struct {

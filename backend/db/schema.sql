@@ -3,7 +3,7 @@ CREATE TABLE dishes (
     name VARCHAR(120) NOT NULL, -- Name of dish
     description TEXT,
     image_url VARCHAR(255), 
-    price NUMERIC(10,2) NOT NULL
+    price double precision NOT NULL
 );
 
 

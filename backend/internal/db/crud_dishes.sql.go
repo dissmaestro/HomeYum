@@ -7,8 +7,6 @@ package db
 
 import (
 	"context"
-
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const getAllDishes = `-- name: GetAllDishes :many
@@ -103,10 +101,10 @@ RETURNING id, name, description, image_url, price
 `
 
 type InsertDishParams struct {
-	Name        string         `json:"name"`
-	Description *string        `json:"description"`
-	ImageUrl    *string        `json:"image_url"`
-	Price       pgtype.Numeric `json:"price"`
+	Name        string  `json:"name"`
+	Description *string `json:"description"`
+	ImageUrl    *string `json:"image_url"`
+	Price       float64 `json:"price"`
 }
 
 func (q *Queries) InsertDish(ctx context.Context, arg InsertDishParams) (Dish, error) {
@@ -140,11 +138,11 @@ RETURNING id, name, description, image_url, price
 `
 
 type UpdateDishByIDParams struct {
-	Name        string         `json:"name"`
-	Description *string        `json:"description"`
-	ImageUrl    *string        `json:"image_url"`
-	Price       pgtype.Numeric `json:"price"`
-	ID          int32          `json:"id"`
+	Name        string  `json:"name"`
+	Description *string `json:"description"`
+	ImageUrl    *string `json:"image_url"`
+	Price       float64 `json:"price"`
+	ID          int32   `json:"id"`
 }
 
 func (q *Queries) UpdateDishByID(ctx context.Context, arg UpdateDishByIDParams) (Dish, error) {
