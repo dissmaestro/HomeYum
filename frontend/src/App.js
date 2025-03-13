@@ -3,6 +3,8 @@ import Message from "./components/Message";
 import Header from "./components/Header";
 import ContactMenu from "./components/ContactMenu";
 import Modal from "./components/Modal";
+import UploadDish from "./components/UploadDish"
+
 
 const App = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,15 +30,13 @@ const App = () => {
     };
 
     return (
-    <div className="header">
-    <Header title="Welcome to the KateKatering, professional chefs redy to cook for you"/>
-    <Message />
-
-    
-    {/* Меню контактов */}
-    <ContactMenu openModal={openModal} />
+        <div className="header">
+            <Header title="Welcome to the KateKatering, professional chefs redy to cook for you"/>
+            <Message />
+            <ContactMenu openModal={openModal} />
             {isModalOpen && <Modal content={modalContent} closeModal={closeModal} />}
-    </div>
+            <UploadDish />
+        </div>
     )
 }
 
