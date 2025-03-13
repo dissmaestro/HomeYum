@@ -26,8 +26,10 @@ func main() {
 	}))
 
 	// Limit to nubers of request  toavoid DDOS
-	app.Use(limiter.New())
-
+	app.Use(limiter.New(limiter.Config{
+		Max:        100,
+		Expiration: 60 * 1000,
+	}))
 	// Initialize DB connect
 	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -45,7 +47,7 @@ func main() {
 	})
 
 	// For gettiting images for frontend
-	app.Static("/images", "./images")
+	app.Static("/images", os.Getenv("IMAGE_URL"))
 
 	// Register routes
 	handlers.RegisterDishesRoutes(app, queries)

@@ -4,19 +4,17 @@ import (
 	"HomeYum/internal/db"
 	"fmt"
 	"log"
-	"math/big"
 	"os"
-
 	"path/filepath"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 func RegisterDishesRoutes(app *fiber.App, queries *db.Queries) {
 	app.Get("/dish/:id", SelectDishById(queries))
 	app.Post("/dishes", createDishes(queries))
+	app.Get("/dishes", SelectAllDishes(queries))
 }
 
 func SelectDishById(queries *db.Queries) fiber.Handler {
@@ -71,22 +69,13 @@ func createDishes(queries *db.Queries) fiber.Handler {
 	}
 }
 
-// Convert string to pgtype.Numeric
-func stringToNumeric(value string) (pgtype.Numeric, error) {
-	var num pgtype.Numeric
-
-	// Convert string to big.Float (avoid losing presicion)
-	bigFloat, _, err := big.ParseFloat(value, 10, 128, big.ToZero)
-	if err != nil {
-		return num, err
+func SelectAllDishes(queries *db.Queries) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		res, err := queries.GetAllDishes(c.Context())
+		if err != nil {
+			log.Println("Error get dishes")
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to get all dishes"})
+		}
+		return c.JSON(res)
 	}
-
-	// Convert big.Float in string and convert to Numeric
-	strValue := bigFloat.Text('f', -1)
-	err = num.Scan(strValue)
-	if err != nil {
-		return num, err
-	}
-
-	return num, nil
 }

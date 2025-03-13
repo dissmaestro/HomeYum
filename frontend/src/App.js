@@ -4,16 +4,18 @@ import Header from "./components/Header";
 import ContactMenu from "./components/ContactMenu";
 import Modal from "./components/Modal";
 import UploadDish from "./components/UploadDish"
+import DishesList from "./components/DishesList";
 
 
 const App = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDishModalOpen, setIsDishModalOpen] = useState(false); 
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState("");
 
-    const openDishModal = () => setIsModalOpen(true);
-    const closeDishModal = () => setIsModalOpen(false);
+    const openDishModal = () => setIsDishModalOpen(true);
+    const closeDishModal = () => setIsDishModalOpen(false);
 
-    const openModal = (type) => {
+    const openInfoModal = (type) => {
         let content = "";
         if (type === "telegram") {
             content = <p>Мой Telegram: <a href="https://t.me/@Rokcet" target="_blank" rel="noopener noreferrer">@Rokcet</a></p>;
@@ -23,26 +25,27 @@ const App = () => {
             content = <p>Мой номер: <a href="tel:+78005553535">+7 (800) 555-35-35</a></p>;
         }
     
-        setModalContent(content); // Устанавливаем содержимое
-        setIsModalOpen(true); // Открываем модальное окно
+        setModalContent(content); 
+        setIsInfoModalOpen(true); 
     };
     
-    const closeModal = () => {
-        setIsModalOpen(false);
+    const closeInfoModal = () => {
+        setIsInfoModalOpen(false);
     };
 
     return (
         <div className="header">
-            <Header title="Welcome to the KateKatering, professional chefs redy to cook for you"/>
+            <Header title="Welcome to the KateKatering, professional chefs ready to cook for you" />
             <Message />
-            <ContactMenu openModal={openModal} />
-            {isModalOpen && <Modal content={modalContent} closeModal={closeModal} />}
-            
-            
+            <ContactMenu openModal={openInfoModal} /> 
+            {isInfoModalOpen && <Modal content={modalContent} closeModal={closeInfoModal} />}
+
             <button onClick={openDishModal}>Добавить блюдо</button>
-            <UploadDish isOpen={isModalOpen} onClose={closeDishModal} />
+            <UploadDish isOpen={isDishModalOpen} onClose={closeDishModal} />
+            
+            <DishesList /> 
         </div>
-    )
-}
+    );
+};
 
 export default App;
