@@ -52,3 +52,10 @@ type Review struct {
 	Comment   *string          `json:"comment"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 }
+
+type User struct {
+	ID        int32            `json:"id"`
+	Name      string           `json:"name"`
+	Password  string           `json:"password"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+}

@@ -48,3 +48,10 @@ CREATE TABLE reviews (
     comment TEXT,
     created_at TIMESTAMP DEFAULT now()
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT now()
+);
