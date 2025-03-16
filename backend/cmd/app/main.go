@@ -1,6 +1,7 @@
 package main
 
 import (
+	"HomeYum/internal/auth"
 	"HomeYum/internal/db"
 	"HomeYum/internal/handlers"
 	"context"
@@ -50,6 +51,7 @@ func main() {
 	app.Static("/images", "./images")
 
 	// Register routes
+	auth.RegisterAuthRoutes(app, queries)
 	handlers.RegisterDishesRoutes(app, queries)
 
 	port := os.Getenv("FIBER_ADDR")

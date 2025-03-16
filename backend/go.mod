@@ -27,3 +27,9 @@ require (
 	github.com/valyala/fasthttp v1.59.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 )
+
+require (
+	github.com/MicahParks/keyfunc/v2 v2.1.0 // indirect
+	github.com/gofiber/contrib/jwt v1.0.10 // indirect
+	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
+)
