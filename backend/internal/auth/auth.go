@@ -10,7 +10,6 @@ import (
 
 func RegisterAuthRoutes(app *fiber.App, queries *db.Queries) {
 	app.Post("/login", AuthUser(queries))
-	app.Get("/rest", restricted)
 }
 
 func AuthUser(queries *db.Queries) fiber.Handler {
@@ -38,9 +37,25 @@ func AuthUser(queries *db.Queries) fiber.Handler {
 	}
 }
 
-func restricted(c *fiber.Ctx) error {
-	user := c.Locals("user").(*jwt.Token)
-	claims := user.Claims.(jwt.MapClaims)
-	name := claims["name"].(string)
+func Restricted(c *fiber.Ctx) error {
+	user := c.Locals("user")
+	if user == nil {
+		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
+	}
+
+	token, ok := user.(*jwt.Token)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).SendString("Invalid token type")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).SendString("Invalid claims type")
+	}
+
+	name, ok := claims["name"].(string)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).SendString("Invalid name in claims")
+	}
 	return c.SendString("Welcome " + name)
 }

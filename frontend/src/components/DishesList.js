@@ -38,8 +38,7 @@ function DishesList() {
           {dishes.map((dish) => (
             <div key={dish.id} className="dish-card" style={styles.dishCard}>
               <img 
-                // src={dish.imageUrl ? `http://localhost:3001/${dish.imageUrl}` : "/default-image.jpg"} 
-                src={`http://localhost:3001/${dish.imageUrl}`} 
+                src={dish.imageUrl ? `http://localhost:3001/${dish.imageUrl}` : "/default-image.jpg"}  
                 alt={dish.name} 
                 style={styles.image} 
               />

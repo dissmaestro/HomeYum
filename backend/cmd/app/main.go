@@ -12,6 +12,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+
+	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -25,6 +27,13 @@ func main() {
 		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
+
+	// JWT Middlware
+	private := app.Group("/private", jwtware.New(jwtware.Config{ //// neeed to change, it`s like example group auth routs
+		SigningKey: []byte(os.Getenv("JWT_SECRET")),
+		ContextKey: os.Getenv("CONTEXT_KEY"),
+	}))
+	private.Get("/restricted", auth.Restricted)
 
 	// Limit to nubers of request  toavoid DDOS
 	app.Use(limiter.New(limiter.Config{
