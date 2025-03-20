@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"reflect"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -29,11 +30,17 @@ func main() {
 	}))
 
 	// JWT Middlware
-	private := app.Group("/private", jwtware.New(jwtware.Config{ //// neeed to change, it`s like example group auth routs
-		SigningKey: []byte(os.Getenv("JWT_SECRET")),
-		ContextKey: os.Getenv("CONTEXT_KEY"),
+	private := app.Group("/private")
+	log.Println("Type of private group is =-================", reflect.TypeOf(private))
+	private.Use(jwtware.New(jwtware.Config{ //// neeed to change, it`s like example group auth routs
+		SigningKey:    []byte(os.Getenv("JWT_SECRET")),
+		SigningMethod: os.Getenv("ALGORITHM_JWT"),
+		ContextKey:    os.Getenv("CONTEXT_KEY"),
+		TokenLookup:   "header:Authorization",
+		AuthScheme:    "Bearer",
 	}))
-	private.Get("/restricted", auth.Restricted)
+
+	log.Println("Type of private group is =-================", reflect.TypeOf(private))
 
 	// Limit to nubers of request  toavoid DDOS
 	app.Use(limiter.New(limiter.Config{
@@ -59,10 +66,15 @@ func main() {
 	// For gettiting images for frontend
 	app.Static("/images", "./images")
 
+	//Ебучая проблема какойго то хуя *fiber.Group приводится к Fiber.Handler с нисхуя
+	priv, ok := private.(*fiber.Group)
+	if !ok {
+		log.Fatal("ERROR: Cannot to casting Fiber route!")
+	}
 	// Register routes
 	auth.RegisterAuthRoutes(app, queries)
-	handlers.RegisterDishesRoutes(app, queries)
-
+	handlers.RegisterOpenDishesRoutes(app, queries)
+	handlers.RegisterPrivateDishesRoutes(priv, queries)
 	port := os.Getenv("FIBER_ADDR")
 	// Start Serevr
 	app.Listen(port)

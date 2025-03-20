@@ -11,10 +11,12 @@ import (
 	"github.com/google/uuid"
 )
 
-func RegisterDishesRoutes(app *fiber.App, queries *db.Queries) {
+func RegisterOpenDishesRoutes(app *fiber.App, queries *db.Queries) {
 	app.Get("/dish/:id", SelectDishById(queries))
-	app.Post("/dishes", createDishes(queries))
 	app.Get("/dishes", SelectAllDishes(queries))
+}
+func RegisterPrivateDishesRoutes(group *fiber.Group, queries *db.Queries) {
+	group.Post("/dishes", createDishes(queries))
 }
 
 func SelectDishById(queries *db.Queries) fiber.Handler {

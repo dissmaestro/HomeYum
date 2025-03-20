@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func RegisterAuthRoutes(app *fiber.App, queries *db.Queries) {
@@ -37,25 +36,7 @@ func AuthUser(queries *db.Queries) fiber.Handler {
 	}
 }
 
-func Restricted(c *fiber.Ctx) error {
-	user := c.Locals("user")
-	if user == nil {
-		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
-	}
-
-	token, ok := user.(*jwt.Token)
-	if !ok {
-		return c.Status(fiber.StatusInternalServerError).SendString("Invalid token type")
-	}
-
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok {
-		return c.Status(fiber.StatusInternalServerError).SendString("Invalid claims type")
-	}
-
-	name, ok := claims["name"].(string)
-	if !ok {
-		return c.Status(fiber.StatusInternalServerError).SendString("Invalid name in claims")
-	}
+func Myau(c *fiber.Ctx) error {
+	name := "hai hai"
 	return c.SendString("Welcome " + name)
 }
