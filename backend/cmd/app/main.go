@@ -26,7 +26,7 @@ func main() {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost",
 		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
-		AllowHeaders: "Origin, Content-Type, Accept",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
 
 	// JWT Middlware
@@ -38,6 +38,10 @@ func main() {
 		ContextKey:    os.Getenv("CONTEXT_KEY"),
 		TokenLookup:   "header:Authorization",
 		AuthScheme:    "Bearer",
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			log.Println("JWT ERROR:", err) // Логируем ошибку
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid token"})
+		},
 	}))
 
 	log.Println("Type of private group is =-================", reflect.TypeOf(private))

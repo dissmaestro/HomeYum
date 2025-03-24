@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"errors"
 	"log"
 	"os"
 	"time"
@@ -18,6 +19,11 @@ func generateJWT(name string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
+	secret := os.Getenv("JWT_SECRET")
+	if secret == "" {
+		log.Println("JWT_SECRET is empty!")
+		return "", errors.New("missing JWT secret")
+	}
 	t, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		log.Println("Error creating token", err)
