@@ -66,7 +66,7 @@ func main() {
 	// For gettiting images for frontend
 	app.Static("/images", "./images")
 
-	//Ебучая проблема какойго то хуя *fiber.Group приводится к Fiber.Handler с нисхуя
+	//Ебучая проблема какойго то хуя *fiber.Group приводится к Fiber.Handler с нисхуя толлько через этот assert заработало
 	priv, ok := private.(*fiber.Group)
 	if !ok {
 		log.Fatal("ERROR: Cannot to casting Fiber route!")
