@@ -17,7 +17,6 @@ func RegisterOpenDishesRoutes(app *fiber.App, queries *db.Queries) {
 }
 func RegisterPrivateDishesRoutes(group *fiber.Group, queries *db.Queries) {
 	group.Post("/dishes", createDishes(queries))
-	group.Get("/kok", Hops(queries))
 }
 
 func SelectDishById(queries *db.Queries) fiber.Handler {
@@ -86,13 +85,6 @@ func SelectAllDishes(queries *db.Queries) fiber.Handler {
 			log.Println("Error get dishes")
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to get all dishes"})
 		}
-		return c.JSON(res)
-	}
-}
-
-func Hops(queries *db.Queries) fiber.Handler {
-	return func(c *fiber.Ctx) error {
-		res := "Popkin route"
 		return c.JSON(res)
 	}
 }

@@ -35,8 +35,3 @@ func AuthUser(queries *db.Queries) fiber.Handler {
 		return c.JSON(fiber.Map{"token": token})
 	}
 }
-
-func Myau(c *fiber.Ctx) error {
-	name := "hai hai"
-	return c.SendString("Welcome " + name)
-}

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import "../css/dish.css";
+import { AuthContext } from "../context/AuthContext";
 
 function UploadDish({ isOpen, onClose }) {
   const [name, setName] = useState("");
