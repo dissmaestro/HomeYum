@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import "../css/dish.css";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function UploadDish({ isOpen, onClose }) {
   const [name, setName] = useState("");
@@ -10,9 +11,18 @@ function UploadDish({ isOpen, onClose }) {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false); // Состояние загрузки
   const [message, setMessage] = useState(""); // Сообщение об ошибке/успехе
-
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token")
+  
   if (!isOpen) return null;
 
+  
+  if (token === null || token === "null") {
+    alert("You need to login for adding dishes");
+    navigate("/login");
+    return null;
+  };
+    
   const handleSubmit = async (e) => {
     e.preventDefault();
 

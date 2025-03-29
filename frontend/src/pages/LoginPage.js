@@ -15,13 +15,17 @@ const LoginPage = () => {
             formData.append("user", login);
             formData.append("pass", password);
             
-            const response = await fetch("http://localhost:3001/private/login", {
+            const response = await fetch("http://localhost:3001/login", {
                 "method": "POST",
                 "body": formData,
             });
             
-            if (!response.ok) {
-                throw new Error("Error authentification")
+            if (response.status === 401) {
+                setPassword("");
+                alert("❌ Bad login or pass! ❌");
+                return;
+            } else if (!response.ok) {
+                throw new Error(`Sever error: ${response.status}`);
             }
 
             const data = await response.json() 

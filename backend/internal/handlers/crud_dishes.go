@@ -17,6 +17,7 @@ func RegisterOpenDishesRoutes(app *fiber.App, queries *db.Queries) {
 }
 func RegisterPrivateDishesRoutes(group *fiber.Group, queries *db.Queries) {
 	group.Post("/dishes", createDishes(queries))
+	group.Get("/dishes", SelectAllDishes(queries))
 }
 
 func SelectDishById(queries *db.Queries) fiber.Handler {
