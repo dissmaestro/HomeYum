@@ -1,7 +1,7 @@
 import UploadDish from "../components/UploadDish"
-import DishesList from "../components/DishesList";
 import LogoutButton from "../components/Logout";
 import { useState } from "react";
+import PrivateDishesList from "../components/PrivateDishesList";
 
 function AdminPage() {
     const [isDishModalOpen, setIsDishModalOpen] = useState(false); 
@@ -14,7 +14,7 @@ function AdminPage() {
         <button onClick={openDishModal}>Добавить блюдо</button> 
         <LogoutButton/>
         <UploadDish isOpen={isDishModalOpen} onClose={closeDishModal} />    
-        <DishesList/>
+        <PrivateDishesList/>
       </div>
     );
   }
