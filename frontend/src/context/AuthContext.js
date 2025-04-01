@@ -1,28 +1,20 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-    const login = async (password) => {
-        try {
-            const response = await fetch("http://localhost:3001/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ password }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Неверный пароль");
-            }
-
-            const data = await response.json();
-            localStorage.setItem("token", data.token);
-            setToken(data.token);
-        } catch (error) {
-            alert(error.message);
+    useEffect(() => {
+        if (token) {
+            localStorage.setItem("token", token);
+        } else {
+            localStorage.removeItem("token");
         }
+    }, [token]);
+
+    const loginUser = (newToken) => {
+        setToken(newToken);
     };
 
     const logout = () => {
@@ -31,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ token, login, logout }}>
+        <AuthContext.Provider value={{ token, loginUser, logout }}>
             {children}
         </AuthContext.Provider>
     );

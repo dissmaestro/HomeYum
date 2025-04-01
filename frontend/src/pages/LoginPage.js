@@ -1,12 +1,12 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [login, setLogin] = useState("");
-
+    const {loginUser} = useContext(AuthContext);
     const navigate = useNavigate();
-
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -31,7 +31,7 @@ const LoginPage = () => {
             const data = await response.json() 
             console.log("User login: ", data, " time: ", new Date().toLocaleString());
             if (data.token){
-                localStorage.setItem("token", data.token)
+                loginUser(data.token);
                 navigate("/dashboard")
             } else {
                 setPassword("")

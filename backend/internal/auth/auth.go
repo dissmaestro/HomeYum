@@ -19,7 +19,7 @@ func AuthUser(queries *db.Queries) fiber.Handler {
 		dbPass, err := queries.GetPassByName(c.Context(), user)
 		if err != nil {
 			log.Println("Error to hit user password", err)
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to authorized"})
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Failed to authorized"})
 		}
 
 		if dbPass != pass {
