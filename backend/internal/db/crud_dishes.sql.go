@@ -9,6 +9,17 @@ import (
 	"context"
 )
 
+const deleteDisheByID = `-- name: DeleteDisheByID :exec
+DELETE FROM dishes
+WHERE 
+    id=$1
+`
+
+func (q *Queries) DeleteDisheByID(ctx context.Context, id int32) error {
+	_, err := q.db.Exec(ctx, deleteDisheByID, id)
+	return err
+}
+
 const getAllDishes = `-- name: GetAllDishes :many
 SELECT id, name, description, image_url, price
 FROM dishes

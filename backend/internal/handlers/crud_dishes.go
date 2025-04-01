@@ -17,7 +17,7 @@ func RegisterOpenDishesRoutes(app *fiber.App, queries *db.Queries) {
 }
 func RegisterPrivateDishesRoutes(group *fiber.Group, queries *db.Queries) {
 	group.Post("/dishes", createDishes(queries))
-	group.Get("/dishes", SelectAllDishes(queries))
+	group.Delete("/dishes/:id", DropDishByID(queries))
 }
 
 func SelectDishById(queries *db.Queries) fiber.Handler {
@@ -87,5 +87,28 @@ func SelectAllDishes(queries *db.Queries) fiber.Handler {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to get all dishes"})
 		}
 		return c.JSON(res)
+	}
+}
+
+func DropDishByID(queries *db.Queries) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		id, err := c.ParamsInt("id")
+		if err != nil {
+			log.Println("Invalid param id value", err)
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid id"})
+		}
+
+		dish, err := queries.GetDishByID(c.Context(), int32(id))
+		if err != nil {
+			log.Println("empty :", dish)
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Dish not found"})
+		}
+
+		err = queries.DeleteDisheByID(c.Context(), int32(id))
+		if err != nil {
+			log.Println("Error during delete dish", err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to delete dish"})
+		}
+		return c.SendStatus(fiber.StatusNoContent)
 	}
 }
