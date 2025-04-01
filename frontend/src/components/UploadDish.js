@@ -11,13 +11,12 @@ function UploadDish({ isOpen, onClose }) {
   const [loading, setLoading] = useState(false); // Состояние загрузки
   const [message, setMessage] = useState(""); // Сообщение об ошибке/успехе
   const token = localStorage.getItem("token")
-  
+
   if (!isOpen) return null;
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!image || name === "" || description === "" || price === "") {
       setMessage("⚠️ Заполните все поля!");
       return;
@@ -32,11 +31,11 @@ function UploadDish({ isOpen, onClose }) {
     try {
       setLoading(true); // Начинаем загрузку
       setMessage(""); // Очищаем старые сообщения
-
-      const response = await axios.post("http://localhost:3001/dishes", formData, {
+      
+      const response = await axios.post("http://localhost:3001/private/dishes", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": token,
+          "Authorization": `Bearer ${token}`,
         },
       });
 

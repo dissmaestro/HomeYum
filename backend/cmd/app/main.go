@@ -28,7 +28,6 @@ func main() {
 		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
-
 	// JWT Middlware
 	private := app.Group("/private")
 	log.Println("Type of private group is =-================", reflect.TypeOf(private))
