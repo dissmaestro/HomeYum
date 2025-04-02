@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios"; 
 import { AuthContext } from "../context/AuthContext";
 import DeleteDishButton from "../components/DeleteDish"
+import "../css/dishList.css"
 function PrivateDishesList() {
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +37,8 @@ function PrivateDishesList() {
 
   if (loading) return <p>⏳ Загрузка...</p>;
 
+  console.log(dishes);
+
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
@@ -44,13 +47,13 @@ function PrivateDishesList() {
       {dishes.length === 0 ? (
         <p>⚠ Нет доступных блюд</p>
       ) : (
-        <div style={styles.grid}>
+        <div className="grid">
           {dishes.map((dish) => (
-            <div key={dish.id} className="dish-card" style={styles.dishCard}>
+            
+            <div key={dish.id} className="dish-card">
               <img 
-                src={dish.imageUrl ? `http://localhost:3001/${dish.imageUrl}` : null}  
+                src={dish.image_url ? `http://localhost:3001/${dish.image_url}` : null}  
                 alt={dish.name} 
-                style={styles.image} 
                 onError={(e) => e.target.src = null} // fallback-картинка
               />
               <h3>{dish.name}</h3>
@@ -64,29 +67,5 @@ function PrivateDishesList() {
     </div>
   );
 }
-
-const styles = {
-  grid: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: "15px",
-  },
-  dishCard: {
-    backgroundColor: "#fff",
-    borderRadius: "12px",
-    padding: "15px",
-    margin: "10px",
-    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-    width: "260px",
-    textAlign: "center",
-  },
-  image: {
-    width: "100%",
-    height: "auto",
-    borderRadius: "10px",
-    objectFit: "cover",
-  },
-};
 
 export default PrivateDishesList;
