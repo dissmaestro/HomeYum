@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Message from "../components/Message";
 import Header from "../components/Header";
 import ContactMenu from "../components/ContactMenu";
 import Modal from "../components/Modal";
 import DishesList from "../components/DishesList";
+import { fetchDishes } from "../store/dishesSlice";
+import { useDispatch } from "react-redux";
+
 
 function UsersPage() {
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState("");
     const closeInfoModal = () => setIsInfoModalOpen(false);
+    const dispatch = useDispatch();
+
+
+    useEffect(()=> {
+        dispatch(fetchDishes());
+    }, [])
 
     const openInfoModal = (type) => {
         let content = "";
