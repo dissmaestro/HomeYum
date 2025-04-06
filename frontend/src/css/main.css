@@ -33,14 +33,6 @@ body {
     justify-content: flex-end;
     gap: 5px;
 }
-.menu basket-icon {
-    top: 50px;
-    cursor: "pointer"
-}
-
-.menu basket-icon:hover {
-    color: #7a0e1a;
-}
 /* Стили для кнопок */
 .menu button {
     background-color: #ec8888;

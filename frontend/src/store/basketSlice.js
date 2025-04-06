@@ -7,12 +7,12 @@ const basketSlice = createSlice({
     },
     reducers: {
         increment: (state, action) => { 
-            let dishData = action.payload;
+            let dishData = action.payload.id;
             if (state.dihes[dishData] === undefined) state.dihes[dishData] = 0;
             state.dihes[dishData]++;
         }, 
         decrement: (state, action) => {
-            let dishData = action.payload;
+            let dishData = action.payload.id;
             if (state.dihes[dishData] > 1) {
               state.dihes[dishData]--;
             } else {
@@ -20,12 +20,15 @@ const basketSlice = createSlice({
             }
           },
         remove: (state, action) => {
-            let dishData = action.payload;
+            let dishData = action.payload.id;
             state.dihes[dishData] = 0;
             delete state.dihes[dishData];
         },
     }
 });
+
+
+export const selectBasket = (state) => state.basket.dishes;
 
 export const {increment, decrement, remove} = basketSlice.actions;
 

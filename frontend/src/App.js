@@ -5,6 +5,7 @@ import UsersPage from "./pages/UsersPage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./api/ProtectedRoute";
 import Basket from "./pages/Basket";
+import './css/main.css';
 
 const App = () => {
   return (

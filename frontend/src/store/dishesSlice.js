@@ -32,5 +32,7 @@ export const dishesSlice = createSlice({
     }
 });
 
-export default dishesSlice.reducer;
+// export const selectDishes = (state) => {state.dihes.dihes};
+// export const selectError = (state) => {state.dihes.error};
 
+export default dishesSlice.reducer;

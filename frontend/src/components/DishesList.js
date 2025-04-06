@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; 
 import "../css/dishList.css"
+import { increment, decrement } from "../store/basketSlice";
+import { useDispatch } from "react-redux";
 
 function DishesList() {
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(""); 
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Upload dishes
@@ -45,6 +47,8 @@ function DishesList() {
               <h2>{dish.name}</h2>
               <p>{dish.description}</p>
               <p>Цена: {dish.price}₽</p>
+              <button onClick={ () => {dispatch(increment({id: dish.id}))}}>Добавить</button>
+              <button onClick={ () => {dispatch(decrement({id: dish.id}))}}>Убрать</button>
             </div>
           ))}
         </div>

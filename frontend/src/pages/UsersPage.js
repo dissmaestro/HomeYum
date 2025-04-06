@@ -17,7 +17,7 @@ function UsersPage() {
 
     useEffect(()=> {
         dispatch(fetchDishes());
-    }, [])
+    }, [dispatch])
 
     const openInfoModal = (type) => {
         let content = "";
