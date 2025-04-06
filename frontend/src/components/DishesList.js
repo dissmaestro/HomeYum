@@ -37,7 +37,7 @@ function DishesList() {
       ) : (
         <div className="grid">
           {dishes.map((dish) => (
-            <div key={dish.id} className="dish-card">
+            <div key={dish.id} className="dish-card" data-id={dish.id}>
               <img 
                 src={dish.image_url ? `http://localhost:3001/${dish.image_url}` : null}  
                 alt={dish.name} 
