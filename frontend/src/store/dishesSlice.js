@@ -11,7 +11,7 @@ export const dishesSlice = createSlice({
     initialState: {
         dihes: [],
         loading: false,
-        error: nill,
+        error: null,
     },
     reducer: {
 
@@ -20,7 +20,7 @@ export const dishesSlice = createSlice({
         builder
             .addCase(fetchDishes.pending, (state) => {state.loading = true;})
             .addCase(fetchDishes.fulfilled, (state, action) => {state.loading = false; state.dihes = action.payload;})
-            .addCase(fetchDishes.rejected, (state, action) => {state.loading = false; action.error.message})
+            .addCase(fetchDishes.rejected, (state, action) => {state.loading = false; state.error = action.error.message});
     }
 });
 
