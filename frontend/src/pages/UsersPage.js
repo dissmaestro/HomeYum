@@ -36,6 +36,7 @@ function UsersPage() {
     return (
         <>
         <div className="header">
+            
             <Header title="Welcome to the KateKatering, professional chefs ready to cook for you" />
             <Message />
             <ContactMenu openModal={openInfoModal} /> 

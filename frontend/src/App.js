@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import UsersPage from "./pages/UsersPage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./api/ProtectedRoute";
-
+import Basket from "./pages/Basket";
 
 const App = () => {
   return (
@@ -13,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<UsersPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/basket" element={<Basket />}/>
           <Route path="/dashboard" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
         </Routes>
       </Router>

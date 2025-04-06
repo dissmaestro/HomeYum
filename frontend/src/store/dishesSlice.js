@@ -4,7 +4,7 @@ import axios from 'axios';
 export const fetchDishes = createAsyncThunk('dishes/fetchDishes', async (_, {rejectWithValue}) => {
     try{    
         const response = await axios.get('http://localhost:3001/dishes');
-        if (!response.ok) {
+        if (response.ok == false) {
             throw new Error("Server error")
         }
         return response.data;
