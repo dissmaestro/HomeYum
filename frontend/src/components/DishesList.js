@@ -13,7 +13,7 @@ function DishesList() {
 
   if (loading) return <p>Загрузка...</p>;
 
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (error) return <p style={{ color: "red" }}>{`${error} Ошибочка вышла;(`}</p>;
 
   return (
     <div>
