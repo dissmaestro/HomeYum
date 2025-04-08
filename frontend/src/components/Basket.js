@@ -30,7 +30,7 @@ const Basket = () => {
             <p>Корзина пуста</p>
           ) : (
             <div>
-              {fullItems.map((item) => (
+              {fullItems.filter((item) => item.count !== null && item.count > 0).map((item) => (
                 
                 <div key={item.id} className="basket-item">
                     {item.image_url && (

@@ -1,4 +1,5 @@
 import Basket from "../components/Basket";
+import "../css/Basket.css"
 
 function BasketPage() {
   return (
