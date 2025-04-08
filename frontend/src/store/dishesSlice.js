@@ -16,7 +16,7 @@ export const fetchDishes = createAsyncThunk('dishes/fetchDishes', async (_, {rej
 export const dishesSlice = createSlice({
     name: "dishes",
     initialState: {
-        dihes: [],
+        dishes: [],
         loading: false,
         error: null,
     },
@@ -27,12 +27,12 @@ export const dishesSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchDishes.pending, (state) => {state.loading = true; state.error = null})
-            .addCase(fetchDishes.fulfilled, (state, action) => {state.loading = false; state.dihes = action.payload;})
+            .addCase(fetchDishes.fulfilled, (state, action) => {state.loading = false; state.dishes = action.payload;})
             .addCase(fetchDishes.rejected, (state, action) => {state.loading = false; state.error = action.error.message});
     }
 });
 
 // export const selectDishes = (state) => {state.dihes.dihes};
 // export const selectError = (state) => {state.dihes.error};
-
+export const selectDishes = (state) => state.dishes;
 export default dishesSlice.reducer;

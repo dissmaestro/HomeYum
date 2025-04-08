@@ -1,31 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; 
 import "../css/dishList.css"
 import { increment, decrement } from "../store/basketSlice";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { selectDishes } from "../store/dishesSlice";
+
 
 function DishesList() {
-  const [dishes, setDishes] = useState([]);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(""); 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Upload dishes
-    const fetchDishes = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/dishes"); 
-        setDishes(response.data); 
-        setLoading(false);
-      } catch (error) {
-        console.error("Ошибка при загрузке блюд:", error);
-        setError("Не удалось загрузить блюда");
-        setLoading(false);
-      }
-    };
-
-    fetchDishes(); 
-  }, []); 
+  const { dishes, error, loading } = useSelector(selectDishes);
 
   if (loading) return <p>Загрузка...</p>;
 
