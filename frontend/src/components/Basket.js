@@ -12,13 +12,18 @@ const Basket = () => {
 
     const fullItems = ArrayBasket.map(([id, count]) => {
         const dish = dishes.find(d => d.id === parseInt(id));
-        return { ...dish, count };
-      });
+        if (dish){
+            return { ...dish, count };
+        }
+        return null
+    }).filter(item => item !== null);;
 
     const totalPrice = useMemo(() => {
-       return fullItems.reduce((sum, item) => sum + item.price * item.count, 0);
+       return fullItems.reduce((sum, item) => 
+        sum + (item.price * item.count), 0);
     }, [fullItems]);
 
+    
     return (
         <div>
           {fullItems.length === 0 ? (
@@ -26,6 +31,7 @@ const Basket = () => {
           ) : (
             <div>
               {fullItems.map((item) => (
+                
                 <div key={item.id} className="basket-item">
                     {item.image_url && (
                         <img 
