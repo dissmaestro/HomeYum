@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { selectBasket, increment, decrement, remove } from "../store/basketSlice";
 import { selectDishes } from "../store/dishesSlice";
-import { useMemo } from "react";
+import { useMemo} from "react";
 
 const Basket = () => {
     const dispatch = useDispatch();
     const basket = useSelector(selectBasket);
     const dishes = useSelector(selectDishes).dishes;
+    
 
     const ArrayBasket = Object.entries(basket); 
 
@@ -17,7 +18,7 @@ const Basket = () => {
         }
         return null
     }).filter(item => item !== null);;
-
+  
     const totalPrice = useMemo(() => {
        return fullItems.reduce((sum, item) => 
         sum + (item.price * item.count), 0);
