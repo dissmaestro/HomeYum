@@ -12,6 +12,7 @@ function UsersPage() {
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState("");
     const closeInfoModal = () => setIsInfoModalOpen(false);
+    
     const dispatch = useDispatch();
 
 
