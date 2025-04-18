@@ -6,19 +6,23 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func RegisterOpenOrderRoutes(app *fiber.App, queries *db.Queries) {
-
+func RegisterOpenOrderRoutes(app *fiber.App, queries *db.Queries, pool *pgxpool.Pool) {
+	app.Post("/order", createFullOrder(queries, pool))
 }
 
-func RegisterPrivateOrderRoutes(group *fiber.Group, queries *db.Queries, conn *pgx.Conn) {
-	group.Post("/order", createFullOrder(queries, conn))
-}
-
-func createFullOrder(queries *db.Queries, conn *pgx.Conn) fiber.Handler {
+func createFullOrder(queries *db.Queries, pool *pgxpool.Pool) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+
+		conn, err := pool.Acquire(c.Context())
+		if err != nil {
+			log.Println("Error acquiring connection:", err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "DB connection error"})
+		}
+		defer conn.Release()
+
 		var params requests.FullOrderRequest
 		if err := c.BodyParser(&params); err != nil {
 			log.Println("Error parsing request body:", err)
