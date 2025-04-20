@@ -37,10 +37,14 @@ func createFullOrder(queries *db.Queries, pool *pgxpool.Pool) fiber.Handler {
 
 		qtx := queries.WithTx(tx)
 
-		creatOrder, err := qtx.CreateOrder(c.Context(), params.Order)
+		idOrder, err := qtx.CreateOrder(c.Context(), params.Order)
 		if err != nil {
 			log.Println("Error with Create Order: ", err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create order"})
+		}
+
+		for i := range params.Items {
+			params.Items[i].OrderID = &idOrder
 		}
 
 		createItemOrder, err := qtx.CreateOrderItems(c.Context(), params.Items)
@@ -55,7 +59,7 @@ func createFullOrder(queries *db.Queries, pool *pgxpool.Pool) fiber.Handler {
 		}
 
 		return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-			"order": creatOrder,
+			"order": idOrder,
 			"items": createItemOrder,
 		})
 	}
