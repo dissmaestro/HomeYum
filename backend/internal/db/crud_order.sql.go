@@ -44,3 +44,67 @@ type CreateOrderItemsParams struct {
 	Quantity int32          `json:"quantity"`
 	Total    pgtype.Numeric `json:"total"`
 }
+
+const getFullOrderInfo = `-- name: GetFullOrderInfo :many
+SELECT 
+    o.id AS order_id, 
+    o.customer_name, 
+    o.customer_lastname, 
+    o.adress, 
+    o.event_date, 
+    o.created_at, 
+    i.dish_id, 
+    d.name AS dish_name, 
+    i.quantity, 
+    i.total AS item_total
+FROM orders o
+JOIN order_items i
+ON o.id = i.order_id
+JOIN dishes d 
+ON i.dish_id = d.id
+WHERE o.id = $1
+`
+
+type GetFullOrderInfoRow struct {
+	OrderID          int32            `json:"order_id"`
+	CustomerName     string           `json:"customer_name"`
+	CustomerLastname string           `json:"customer_lastname"`
+	Adress           string           `json:"adress"`
+	EventDate        pgtype.Timestamp `json:"event_date"`
+	CreatedAt        pgtype.Timestamp `json:"created_at"`
+	DishID           *int32           `json:"dish_id"`
+	DishName         string           `json:"dish_name"`
+	Quantity         int32            `json:"quantity"`
+	ItemTotal        pgtype.Numeric   `json:"item_total"`
+}
+
+func (q *Queries) GetFullOrderInfo(ctx context.Context, id int32) ([]GetFullOrderInfoRow, error) {
+	rows, err := q.db.Query(ctx, getFullOrderInfo, id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetFullOrderInfoRow{}
+	for rows.Next() {
+		var i GetFullOrderInfoRow
+		if err := rows.Scan(
+			&i.OrderID,
+			&i.CustomerName,
+			&i.CustomerLastname,
+			&i.Adress,
+			&i.EventDate,
+			&i.CreatedAt,
+			&i.DishID,
+			&i.DishName,
+			&i.Quantity,
+			&i.ItemTotal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

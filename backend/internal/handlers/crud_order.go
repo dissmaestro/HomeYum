@@ -13,6 +13,10 @@ func RegisterOpenOrderRoutes(app *fiber.App, queries *db.Queries, pool *pgxpool.
 	app.Post("/order", createFullOrder(queries, pool))
 }
 
+func RegisterPrivateOrderRoutes(group *fiber.Group, queries *db.Queries) {
+	group.Get("/order/:id", DropDishByID(queries))
+}
+
 func createFullOrder(queries *db.Queries, pool *pgxpool.Pool) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 
@@ -62,5 +66,22 @@ func createFullOrder(queries *db.Queries, pool *pgxpool.Pool) fiber.Handler {
 			"order": idOrder,
 			"items": createItemOrder,
 		})
+	}
+}
+
+func getOrderByID(queries *db.Queries) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		id, err := c.ParamsInt("id")
+		if err != nil {
+			log.Println("Cannot get id of order from url")
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to get order id"})
+		}
+
+		order, err := queries.GetFullOrderInfo(c.Context(), int32(id))
+		if err != nil {
+			log.Println("Cannot get order by id")
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to get order by id"})
+		}
+		return c.JSON(order)
 	}
 }
