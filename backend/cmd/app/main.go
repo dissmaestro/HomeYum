@@ -77,6 +77,7 @@ func main() {
 	auth.RegisterAuthRoutes(app, queries)
 	handlers.RegisterOpenDishesRoutes(app, queries)
 	handlers.RegisterPrivateDishesRoutes(priv, queries)
+	handlers.RegisterPrivateOrderRoutes(priv, queries)
 	handlers.RegisterOpenOrderRoutes(app, queries, dbpool)
 	port := os.Getenv("FIBER_ADDR")
 	// Start Serevr
